@@ -23,13 +23,14 @@ export function getNextPeriodMessage(
         return `${name} starting in ${num} ${unit}.`
     }
 
-    const endingNum = endingIn || nextSeconds;
+    const endingNum = endingIn + 1 || nextSeconds;
     const endingUnit = `${endingIn ? 'minute' : 'second'}${endingNum !== 1 ? 's' : ''}`;
 
     // If the period started less than a minute ago, invert `nextSeconds` to get the seconds elapsed *since*
     // the minute started.
-    const startedNum = startingIn !== -1 ? -startingIn : 60 - nextSeconds;
-    const startedUnit = `${startingIn !== -1 ? 'minute' : 'second'}${startedNum !== 1 ? 's' : ''}`;
+    // Made it more clear that it started a minute ago
+    const startedNum = -startingIn !== 1 ? -startingIn - 1 : 60 - nextSeconds;
+    const startedUnit = `${-startingIn !== 1 ? 'minute' : 'second'}${startedNum - 1 !== 1 ? 's' : ''}`;
 
     return `${name} ending in ${endingNum} ${endingUnit}, started ${startedNum} ${startedUnit} ago.`
 }
